@@ -1,19 +1,23 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.wordToGuess {
+  font-size: 2em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.container {
+  display: flex;
+  align-items: center;
 }
 
-.App-header {
+
+.minorInfo {
+  font-size: 0.5em;
+  font-style: oblique;
+  color: crimson;
+}
+
+.header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
