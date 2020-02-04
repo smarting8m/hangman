@@ -1,15 +1,47 @@
 .App {
   text-align: center;
 }
-.wordToGuess {
-  font-size: 2em;
-}
 
 .container {
   display: flex;
+  justify-content: center;
   align-items: center;
+  flex-direction: row;
+  width: 100%;
 }
 
+.container > * {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.wordToGuess {
+  font-size: 2em;
+  text-align: center;
+}
+
+.board {
+  text-align: left;
+}
+
+.info {
+  font-size: small;
+}
+
+.canvasContainer {
+  width: 640px;
+  height: 425px;
+  margin: 0;
+  position: relative; /* add */
+}
+
+.bracket, .hangman, .chair {
+  width:100%;
+  height:100%;
+  position:absolute; /* change */
+  left: 0; 
+  top: 0;
+}
 
 .minorInfo {
   font-size: 0.5em;

@@ -7,109 +7,49 @@ class HangmanCanvas extends Component {
      * Once the component is mounted, initialized the canvas
      */
     componentDidMount() {
-      this.drawHangman();
+      this.updateHangman();
     }
   
     /**
      * If the component updates, refresh the canvas
      */
     componentDidUpdate() {
-      this.drawHangman();
+      this.updateHangman();
     }
-  
-    drawHangman() {
-        const numberTry = this.props.tryNumber;
-        const canvas = this.refs.canvas;
-        const ctx = canvas.getContext("2d");
 
-        ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
+    updateHangman() {
+        const totalFail = this.props.totalFail;
 
-        // Draw a chair at the initialization
-        if(numberTry>= 0 && numberTry <= 5) {
-            if(numberTry === 0) {
-                ctx.moveTo(400, 425)
-                ctx.lineTo(400, 375)
-        
-                ctx.moveTo(325, 425)
-                ctx.lineTo(325, 375)
-        
-                // Assise
-                ctx.lineTo(400, 375)
-        
-                // Dossier
-                ctx.lineTo(400, 325)
-            }
-        
-            // Draw the guy
-            if(numberTry === 1) {
-                // Right Leg
-                ctx.moveTo(340, 375)
-                ctx.lineTo(360, 300)
-                // Left leg
-                ctx.moveTo(380, 375)
-                ctx.lineTo(360, 300)
-        
-                // Body
-                ctx.lineTo(360, 200)
-        
-                // Head
-                ctx.moveTo(380, 180)
-                ctx.arc(360, 180, 20, 0, 2 * Math.PI, true);
-        
-                // Arm
-                ctx.moveTo(360, 220)
-                ctx.lineTo(340, 270)
-        
-                ctx.moveTo(360, 220)
-                ctx.lineTo(380, 270)
-            }
-        
-            if(numberTry === 2) {
-                // Pied
-                ctx.moveTo(180, 425)
-                ctx.lineTo(300, 425);
-            }
-                
-            // Potence
-            if(numberTry === 3) {
-                ctx.moveTo(220, 425);
-                ctx.lineTo(220, 80);
-        
-                ctx.lineTo(360, 80);
-            }
-        
-        
-            if(numberTry === 4) {
-                // Equerre
-                ctx.moveTo(220, 170);
-                ctx.lineTo(320, 80);
-            }
-        
-            if(numberTry === 5) {
-                // Corde
-                ctx.moveTo(360, 80);
-                ctx.lineTo(360, 160);
-            }
-        } else {
-            // LOSE
-            this.youLose();
+        // Draw the guy
+        if(totalFail === 1) {
+            this.drawGuy(false);
         }
 
-        ctx.stroke();
+        if(totalFail >= this.props.totalChances) {
+            this.drawGuy(true);
+        }
     }
-  
-    youLose() {
-        const canvas = this.refs.canvas;
+
+    drawGuy(rotate) {
+        const canvas = this.refs.hangman;
         const ctx = canvas.getContext("2d");
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.strokeStyle = '#FFFFFF';
         ctx.lineWidth = 2;
         ctx.beginPath();
+        ctx.save();
 
-        // Clear the canvas
-        ctx.clearRect(0, 0, 640, 425);
+        if(rotate) {
+            ctx.fillStyle = "red";
+            ctx.textAlign = "center";
+            ctx.font = "80px Courier"
+            ctx.fillText("YOU L SE", canvas.width/2 - 10, canvas.height/2 + 5);
+            ctx.translate(380, 200);
+            ctx.rotate(this.props.angle*Math.PI/180);
+            ctx.translate(-380,-200);
+        }
 
         // Draw the guy
         // Right Leg
@@ -120,11 +60,23 @@ class HangmanCanvas extends Component {
         ctx.lineTo(360, 300)
 
         // Body
+        ctx.moveTo(360, 300)
         ctx.lineTo(360, 200)
 
         // Head
-        ctx.moveTo(380, 180)
-        ctx.arc(360, 180, 20, 0, 2 * Math.PI, true);
+        if(rotate) {
+            ctx.moveTo(400, 200)
+            ctx.strokeStyle = 'red';
+            ctx.arc(380, 200, 20, 0, 2 * Math.PI, true);
+            ctx.fill();
+            ctx.strokeStyle = '#FFFFFF';
+        } else {
+            ctx.moveTo(360, 180)
+            ctx.arc(360, 190, 20, 0, 2 * Math.PI, true);
+            ctx.fillStyle = "white";
+            ctx.fill();
+        }
+        
 
         // Arm
         ctx.moveTo(360, 220)
@@ -133,39 +85,14 @@ class HangmanCanvas extends Component {
         ctx.moveTo(360, 220)
         ctx.lineTo(380, 270)
 
-        // Pied
-        ctx.moveTo(180, 425)
-        ctx.lineTo(300, 425);
-        ctx.moveTo(220, 425);
-        ctx.lineTo(220, 80);
-        ctx.lineTo(360, 80);
-
-        // Equerre
-        ctx.moveTo(220, 170);
-        ctx.lineTo(320, 80);
-        
-        // Corde
-        ctx.moveTo(360, 80);
-        ctx.lineTo(360, 160);
-
-        // Corde
-        ctx.moveTo(360, 80);
-        ctx.lineTo(360, 160);
-
         ctx.stroke();
-
-        ctx.fillStyle = "red";
-        ctx.textAlign = "center";
-        ctx.font = "80px Courier"
-        ctx.fillText("Dead man", canvas.width/2, canvas.height/2);
+        ctx.restore();
     }
   
     render() {
-      return(    
-        <div> 
-            <canvas ref="canvas" width={640} height={425} />
-        </div>
-      )
+        return(    
+            <canvas className="hangman" ref="hangman" width={640} height={425} />
+        )
     }
       
   }
