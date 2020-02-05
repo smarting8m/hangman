@@ -44,7 +44,7 @@ class HangmanCanvas extends Component {
         if(rotate) {
             ctx.fillStyle = "red";
             ctx.textAlign = "center";
-            ctx.font = "80px Courier"
+            ctx.font = "80px Courier";
             ctx.fillText("YOU L SE", canvas.width/2 - 10, canvas.height/2 + 5);
             ctx.translate(380, 200);
             ctx.rotate(this.props.angle*Math.PI/180);
@@ -53,37 +53,36 @@ class HangmanCanvas extends Component {
 
         // Draw the guy
         // Right Leg
-        ctx.moveTo(340, 375)
-        ctx.lineTo(360, 300)
+        ctx.moveTo(340, 375);
+        ctx.lineTo(360, 300);
         // Left leg
-        ctx.moveTo(380, 375)
-        ctx.lineTo(360, 300)
+        ctx.moveTo(380, 375);
+        ctx.lineTo(360, 300);
 
         // Body
-        ctx.moveTo(360, 300)
-        ctx.lineTo(360, 200)
+        ctx.moveTo(360, 300);
+        ctx.lineTo(360, 200);
 
         // Head
         if(rotate) {
-            ctx.moveTo(400, 200)
+            ctx.moveTo(400, 200);
             ctx.strokeStyle = 'red';
             ctx.arc(380, 200, 20, 0, 2 * Math.PI, true);
             ctx.fill();
             ctx.strokeStyle = '#FFFFFF';
         } else {
-            ctx.moveTo(360, 180)
+            ctx.moveTo(360, 180);
             ctx.arc(360, 190, 20, 0, 2 * Math.PI, true);
             ctx.fillStyle = "white";
             ctx.fill();
         }
-        
 
         // Arm
-        ctx.moveTo(360, 220)
-        ctx.lineTo(340, 270)
+        ctx.moveTo(360, 220);
+        ctx.lineTo(340, 270);
 
-        ctx.moveTo(360, 220)
-        ctx.lineTo(380, 270)
+        ctx.moveTo(360, 220);
+        ctx.lineTo(380, 270);
 
         ctx.stroke();
         ctx.restore();
